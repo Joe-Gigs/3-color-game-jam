@@ -31,8 +31,8 @@ function _update()
 end
 -----------------------------------------
 
-function menu()
-
+function drawMenu()
+	
 end
 
 
