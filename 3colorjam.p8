@@ -3,7 +3,6 @@ version 8
 __lua__
 function _init()
 		
-
 	reapah = {}
 	reapah.sp = 0
 	reapah.x = 10
@@ -15,25 +14,34 @@ function _init()
 	cursor.y = 40
 
 	game_state = "fight"
+
+	menu = {}
+	menu.status = 0
+
 end
 
 function _draw()
 	cls()
 	--much todo with this one
 	drawmenu(reapah)
+
+	print(cursor.x, 10, 10, 8)
+	print(cursor.y, 10, 0, 6)
+	print(menu.status, 10, 30, 11)
+
+
 end
 
 function _update()
 	moveCursor()
+	menuInput()
 end
 -----------------------------------------
 
-function drawmenu(enemy)
-
+function drawmenu(entity)
 	poke(0x5f2c, 3)
-	menu = {}
+	
 	menu.sp = 64
-	menu.status = 0
 
 	menu_right = {}
 	menu_right.x = 30
@@ -46,20 +54,17 @@ function drawmenu(enemy)
 	spr(menu.sp, menu_right.x, menu_right.y, 4, 4)
 	spr(menu.sp, menu_left.x, menu_left.y, 4, 4)
 
-	spr(enemy.sp, enemy.x, enemy.y, 4, 4)
+	spr(entity.sp, entity.x, entity.y, 4, 4)
 
-
-	-- cursor = {}
-	-- cursor.sp = 8
-	-- cursor.x = 0
-	-- cursor.y = 40
-	--cursor.pos = cursor.min	
 	-----------------------------------------
 	if menu.status == 0 then
 		print("action", 5, 42, 0)
 		print("item",40,42,0)
 		print("leave", 40, 55, 0)
 	end	
+	if menu.status == 1 then
+		print("test", 5, 42, 0)
+	end
 	spr(cursor.sp,cursor.x,cursor.y)
 end
 
@@ -71,6 +76,22 @@ function moveCursor()
 	if btnp(3) then
 		cls()
 		cursor.y=cursor.y + 13
+	end
+	if btnp(2) then
+		cls()
+		cursor.y=cursor.y - 13
+	end
+	if btnp(0) then
+		cls()
+		cursor.x=cursor.x - 35
+	end
+end
+
+function menuInput()
+	if btnp(4) then
+		if menu.status == 0 then 
+			cls() menu.status = 1
+		end
 	end
 end
 
