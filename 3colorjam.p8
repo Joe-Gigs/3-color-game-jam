@@ -16,7 +16,7 @@ function _init()
 	game_state = "fight"
 
 	menu = {}
-	menu.status = 0
+	menu.level = 0
 
 end
 
@@ -27,7 +27,7 @@ function _draw()
 
 	print(cursor.x, 10, 10, 8)
 	print(cursor.y, 10, 0, 6)
-	print(menu.status, 10, 30, 11)
+	print(menu.level, 10, 30, 11)
 
 
 end
@@ -35,10 +35,12 @@ end
 function _update()
 	moveCursor()
 	menuInput()
+
+
 end
 -----------------------------------------
-
 function drawmenu(entity)
+	--init
 	poke(0x5f2c, 3)
 	
 	menu.sp = 64
@@ -51,19 +53,28 @@ function drawmenu(entity)
 	menu_left.x = 0
 	menu_left.y = 40
 
+	action = false
+	item = false
+
+	menuPosX = cursor.x
+	menuPosY = cursor.y
+
 	spr(menu.sp, menu_right.x, menu_right.y, 4, 4)
 	spr(menu.sp, menu_left.x, menu_left.y, 4, 4)
 
 	spr(entity.sp, entity.x, entity.y, 4, 4)
 
 	-----------------------------------------
-	if menu.status == 0 then
+	if menu.level == 0 then
 		print("action", 5, 42, 0)
 		print("item",40,42,0)
 		print("leave", 40, 55, 0)
 	end	
-	if menu.status == 1 then
-		print("test", 5, 42, 0)
+	if menu.level == 1 then
+		print("menu1", 5, 42, 0)
+	end
+	if menu.level == 2 then
+		print("menu2", 5, 42, 0)
 	end
 	spr(cursor.sp,cursor.x,cursor.y)
 end
@@ -88,12 +99,29 @@ function moveCursor()
 end
 
 function menuInput()
-	if btnp(4) then
-		if menu.status == 0 then 
-			cls() menu.status = 1
+if btnp(4) then
+	if menuPosX == 0 and menuPosY == 40 then
+		if menu.level == 0 then 
+			cls() 
+			menu.level = 1
+			action = true
+			end
+		end 
+	if menuPosX == 35 and menuPosY == 40 then
+		cls()
+		menu.level = 2
+	end
+end
+	if btnp(5) then
+		if menu.level == 1 then
+			menu.level -= 1
+			elseif menu.level == 2 then
+				menu.level -= 2
 		end
 	end
 end
+
+
 
 
 __gfx__
