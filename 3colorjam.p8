@@ -2,6 +2,12 @@ pico-8 cartridge // http://www.pico-8.com
 version 8
 __lua__
 function _init()
+	player = {}
+	--stand-in sprite
+	player.sp = 145
+	player.x = 0
+	player.y = 0
+	player.speed = 0.8
 		
 	reapah = {}
 	reapah.sp = 0
@@ -17,32 +23,50 @@ function _init()
 
 	menu = {}
 	menu.level = 0
+	
 
 end
 
 function _draw()
 	cls()
-	--much todo with this one
+	
 	if game_state == "fight" then
 		drawmenu(reapah)
 	else
-		map(0, 0,0,0,16,16)
+		map(0,0,0,0,16,16)
+		spr(player.sp, player.x, player.y)
 	end
 
 	--print(cursor.x, 10, 10, 8)
 	--print(cursor.y, 10, 0, 6)
 	--print(menu.level, 10, 30, 11)
 
-
+	
 end
 
 function _update()
-	moveCursor()
-	menuInput()
-
-
+	movecursor()
+	menuinput()
+	playerMovement()
 end
 -----------------------------------------
+function playerMovement()
+	if game_state == "explore" then
+		if btn(0) then
+			player.x -= player.speed
+		end
+		if btn(1) then
+			player.x += player.speed
+		end
+		if btn(2) then
+			player.y -= player.speed
+		end
+		if btn(3) then
+			player.y += player.speed
+		end
+	end
+end
+
 function drawmenu(entity)
 	--init
 	poke(0x5f2c, 3)
@@ -60,15 +84,14 @@ function drawmenu(entity)
 	action = false
 	item = false
 
-	menuPosX = cursor.x
-	menuPosY = cursor.y
+	menuposx = cursor.x
+	menuposy = cursor.y
 
 	spr(menu.sp, menu_right.x, menu_right.y, 4, 4)
 	spr(menu.sp, menu_left.x, menu_left.y, 4, 4)
 
 	spr(entity.sp, entity.x, entity.y, 4, 4)
 
-	-----------------------------------------
 	if menu.level == 0 then
 		print("action", 5, 42, 0)
 		print("item",40,42,0)
@@ -83,7 +106,7 @@ function drawmenu(entity)
 	spr(cursor.sp,cursor.x,cursor.y)
 end
 
-function moveCursor()
+function movecursor()
 	if btnp(1) then
 		cls()
 		cursor.x=cursor.x + 35
@@ -102,16 +125,16 @@ function moveCursor()
 	end
 end
 
-function menuInput()
+function menuinput()
 if btnp(4) then
-	if menuPosX == 0 and menuPosY == 40 then
+	if menuposx == 0 and menuposy == 40 then
 		if menu.level == 0 then 
 			cls() 
 			menu.level = 1
 			action = true
 			end
 		end 
-	if menuPosX == 35 and menuPosY == 40 then
+	if menuposx == 35 and menuposy == 40 then
 		cls()
 		menu.level = 2
 	end
@@ -204,9 +227,9 @@ __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000008880000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000008880000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000008880000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
