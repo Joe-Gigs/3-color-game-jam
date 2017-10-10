@@ -13,7 +13,7 @@ function _init()
 	cursor.x = 0
 	cursor.y = 40
 
-	game_state = "fight"
+	game_state = "explore"
 
 	menu = {}
 	menu.level = 0
@@ -23,11 +23,15 @@ end
 function _draw()
 	cls()
 	--much todo with this one
-	drawmenu(reapah)
+	if game_state == "fight" then
+		drawmenu(reapah)
+	else
+		map(0, 0,0,0,16,16)
+	end
 
-	print(cursor.x, 10, 10, 8)
-	print(cursor.y, 10, 0, 6)
-	print(menu.level, 10, 30, 11)
+	--print(cursor.x, 10, 10, 8)
+	--print(cursor.y, 10, 0, 6)
+	--print(menu.level, 10, 30, 11)
 
 
 end
