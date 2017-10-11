@@ -110,7 +110,7 @@ end
 
 function helloNpc()
 	npc1.x += 0.3
-	if npc1.x >= 50 then
+	if npc1.x > 50 then
 		npc1.x -= 0.3
 	end
 end
