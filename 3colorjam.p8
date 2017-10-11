@@ -29,7 +29,7 @@ function _init()
 	cursor.x = 0
 	cursor.y = 40
 	
-	--delete this
+	--delete thiss
 
 	game_state = "explore"
 
