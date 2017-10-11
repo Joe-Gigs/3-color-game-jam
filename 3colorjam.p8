@@ -28,6 +28,8 @@ function _init()
 	cursor.sp = 8
 	cursor.x = 0
 	cursor.y = 40
+	
+	--delete this
 
 	game_state = "explore"
 
