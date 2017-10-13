@@ -30,8 +30,6 @@ function _init()
 	cursor.x = 0
 	cursor.y = 40
 	
-	--delete thiss
-
 	game_state = "explore"
 
 	menu = {}
@@ -44,6 +42,7 @@ function _init()
 
 	timer = 0
 	
+	video_setting = poke(0x5f2c, 3)
 end
 
 function _draw()
@@ -59,8 +58,9 @@ function _draw()
 		--spr(test_sprite.sp, test_sprite.x, test_sprite.y)
 	end
 
-	print(player.x, 10, 50, 6)
-	print(game_state, 10, 30, 11)
+	print(cursor.x, 10, 50, 6)
+	print(cursor.y, 10, 30, 11)
+	print(menu.level, 10, 40, 11)
 
 
 end
@@ -138,12 +138,13 @@ function resetTimer()
 
 function triggerBattleTest()
 	game_state = "fight"
+	
 end
 
 function drawmenu(entity) 
 	--init
-	poke(0x5f2c, 3)
-	
+	--poke(0x5f2c, 3)
+	video_setting
 	menu.sp = 64
 
 	menu_right = {}
@@ -175,6 +176,9 @@ function drawmenu(entity)
 	end
 	if menu.level == 2 then
 		print("menu2", 5, 42, 0)
+	end
+	if menu.level == 3 then
+		game_state = "explore"
 	end
 	spr(cursor.sp,cursor.x,cursor.y)
 end
@@ -211,7 +215,12 @@ if btnp(4) then
 		cls()
 		menu.level = 2
 	end
+	if menuposx == 35 and menuposy == 53 then
+		cls()
+		menu.level = 3
+	end	
 end
+
 	if btnp(5) then
 		if menu.level == 1 then
 			menu.level -= 1
