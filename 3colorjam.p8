@@ -17,6 +17,7 @@ function _init()
 	npc1.y = 40
 	npc1.speed = 0.6
 	npc1.flip = false
+	npc1.sleep = false
 	
 	--stand in bad guy
 	reapah = {}
@@ -40,6 +41,8 @@ function _init()
 	-- test_sprite.sp = 145
 	-- test_sprite.x = 30
 	-- test_sprite.y = 50
+
+	timer = 0
 	
 end
 
@@ -51,13 +54,13 @@ function _draw()
 	else
 		map(0,0,0,0,16,16)
 		spr(player.sp, player.x, player.y,1,1,player.flip)
-		spr(npc1.sp, npc1.x, npc1.x, 1, 1, npc1.flip)
+		spr(npc1.sp, npc1.x, npc1.y, 1, 1, npc1.flip)
 
 		--spr(test_sprite.sp, test_sprite.x, test_sprite.y)
 	end
 
 	print(npc1.x, 10, 50, 6)
-	print(player.x, 10, 30, 11)
+	print(timer, 10, 30, 11)
 
 end
 
@@ -65,15 +68,15 @@ function _update()
 	movecursor()
 	menuinput()
 	playermovement()
-	helloNpc()
-
-	-- test_sprite.x += 1
-
-	npc1.x += 0.4
-	if npc1.x >= 60.4 then
-		npc1.flip = true
-		npc1.x -= 0.4
+	
+	
+	timer +=1
+	if timer > 100 then
+		resetTimer()
 	end
+
+	npcMoveMent()
+	reverseNPC()
 end
 -----------------------------------------------
 function playermovement()
@@ -110,14 +113,26 @@ function playermovement()
 	end
 end
 
-function helloNpc()
-	npc1.x += 0.3
-	if npc1.x > 50 then
-		npc1.x -= 0.3
+function npcMoveMent()
+	if timer < 50 then
+		npc1.x += 0.4
+		npc1.flip = false
 	end
 end
 
-function drawmenu(entity)
+function reverseNPC()
+	if timer > 50 then
+		npc1.x -= 0.4
+		npc1.flip = true
+	end
+end
+
+function resetTimer()
+  	timer = 0
+  end
+
+
+function drawmenu(entity) 
 	--init
 	poke(0x5f2c, 3)
 	
@@ -198,9 +213,7 @@ end
 	end
 end
 
---delete thisss
---mercury rev
---slowdive
+
 
 
 __gfx__
