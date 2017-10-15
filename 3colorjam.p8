@@ -35,32 +35,16 @@ function _init()
 	menu = {}
 	menu.level = 0
 
-	-- test_sprite = {}
-	-- test_sprite.sp = 145
-	-- test_sprite.x = 30
-	-- test_sprite.y = 50
-
 	timer = 0
-	
-	video_setting = poke(0x5f2c, 3)
+
 end
 
 function _draw()
-	cls()
-	--TODO put explore code in reusable function
-	if game_state == "fight" then
-		drawmenu(reapah)
-	else
-		map(0,0,0,0,16,16)
-		spr(player.sp, player.x, player.y,1,1,player.flip)
-		spr(npc1.sp, npc1.x, npc1.y, 1, 1, npc1.flip)
+	print(cursor.y, 1, 40, 8)
+	print(cursor.x, 1, 50, 11)
+	print(game_state, 1, 30, 3)
+	print(menu.level, 1,20, 10)
 
-		--spr(test_sprite.sp, test_sprite.x, test_sprite.y)
-	end
-
-	print(cursor.x, 10, 50, 6)
-	print(cursor.y, 10, 30, 11)
-	print(menu.level, 10, 40, 11)
 
 
 end
@@ -81,6 +65,19 @@ function _update()
 
 	if player.x >= 24.6 and player.y <= 37.6 then
 		triggerBattleTest()
+	end
+
+	cls()
+	--TODO put explore code in reusable function
+	if game_state == "fight" then
+		poke(0x5f2c, 3)
+		drawmenu(reapah)
+	else
+		poke(0x5f2c, 0)
+		map(0,0,0,0,16,16)
+		spr(player.sp, player.x, player.y,1,1,player.flip)
+		spr(npc1.sp, npc1.x, npc1.y, 1, 1, npc1.flip)
+		menu.level = 0
 	end
 end
 -----------------------------------------------
@@ -142,9 +139,7 @@ function triggerBattleTest()
 end
 
 function drawmenu(entity) 
-	--init
-	--poke(0x5f2c, 3)
-	video_setting
+
 	menu.sp = 64
 
 	menu_right = {}
@@ -218,15 +213,13 @@ if btnp(4) then
 	if menuposx == 35 and menuposy == 53 then
 		cls()
 		menu.level = 3
+		game_state = "explore"
+	
 	end	
 end
-
+	
 	if btnp(5) then
-		if menu.level == 1 then
-			menu.level -= 1
-			elseif menu.level == 2 then
-				menu.level -= 2
-		end
+		menu.level = 0
 	end
 end
 
