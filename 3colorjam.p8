@@ -41,17 +41,25 @@ function _init()
 
 	talk = false
 	current_location = "town"
+
+	location = {}
+ 	location.counter = 1
+
+ 	testvar = false
 end
 
 function _draw()
-	print(player.x, 100, 40, 8)
-	print(npc1.x, 100, 50, 11)
+	print(val, 100, 10, 30, 2)
+	print(testvar, 100,20, 10)
 	print(current_location, 100, 30, 3)
-	--print(talk, 100,20, 10)
+	print(player.y, 100, 40, 11)
+	print(player.x, 100, 50, 8)
+
 	
 end
 
 function _update()
+	
 	timer +=1
 	if timer > 100 then
 		resettimer()
@@ -81,11 +89,16 @@ end
 		drawmenu(reapah)
 	else
 		poke(0x5f2c, 0)
-		map(0,0,0,0,16,16)
+		map(0,0,0,0,128,32)
 		spr(player.sp, player.x, player.y,1,1,player.flip)
 		spr(npc1.sp, npc1.x, npc1.y, 1, 1, npc1.flip)
 		menu.level = 0
 	end
+	-- if current_location == "town" then
+	-- 	player.x = 200
+	-- end
+
+	test()
 end
 -----------------------------------------------
 function playermovement()
@@ -248,12 +261,21 @@ end
 	end
 end
 
-function enterChurh()
+function enterchurh()
 	current_location = "church"
 end
 
+function test(x,y) 
+	val = mget(npc1.x,npc1.y)
+
+	if val > 30 then
+		testvar = true
+	end
+
+end
 
 
+	
 
 
 __gfx__
