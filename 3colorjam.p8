@@ -12,6 +12,7 @@ function _init()
 	player.speed = 0.6
 	player.walk = false
 	player.flip = false
+	player.collide_tiles = true
 
 	npc1 = {}
 	npc1.sp = 154
@@ -49,29 +50,26 @@ function _init()
 end
 
 function _draw()
-	print(val, 100, 10, 30, 2)
-	print(testvar, 100,20, 10)
+	-- print(val, 100, 10, 30, 2)
+	-- print(testvar, 100,20, 10)
 	print(current_location, 100, 30, 3)
 	print(player.y, 100, 40, 11)
 	print(player.x, 100, 50, 8)
-
-	
 end
 
 function _update()
-	
 	timer +=1
 	if timer > 100 then
 		resettimer()
 	end
 
-	playermovement()
+	updatePlayer()
 	movecursor()
 	menuinput()
 	
 	npcmovement()
 	reversenpc()
-
+	
 --testing encounter screen with hard coded values for player
 	-- if player.x >= 24.6 and player.y <= 37.6 then
 	-- 	triggerbattletest()
@@ -98,11 +96,13 @@ end
 	-- 	player.x = 200
 	-- end
 
-	test()
 end
 -----------------------------------------------
-function playermovement()
-	if game_state == "explore" then
+function updatePlayer()
+	local lx=player.x -- last x
+ 	local ly=player.y -- last y
+
+ 	if game_state == "explore" then
 		--left arrow key
 		if btn(0) then
 			player.x -= player.speed
@@ -117,7 +117,7 @@ function playermovement()
 
 		--right arror key
 		if btn(1) then
-			player.x += player.speed
+			player.x += player.speed 
 			player.flip = false
 			player.walk = true
 			player.sp += 1
@@ -135,7 +135,9 @@ function playermovement()
 			player.sp = 142
 		end
 	end
+		if(cmap(player)) player.x=lx player.y=ly
 end
+
 
 function npcmovement()
 	if talk == false and timer < 50 then
@@ -265,17 +267,24 @@ function enterchurh()
 	current_location = "church"
 end
 
-function test(x,y) 
-	val = mget(npc1.x,npc1.y)
+function cmap(player)
+	local ct=false
+	local cb=false
 
-	if val > 30 then
-		testvar = true
-	end
-
+	-- if colliding with map tiles flagged 1
+	if(player.collide_tiles) then
+		local x1=player.x/8
+		local y1=player.y/8
+		local x2=(player.x+7)/8
+		local y2=(player.y+7)/8
+ 	local a=fget(mget(x1,y1),0)
+ 	local b=fget(mget(x1,y2),0)
+ 	local c=fget(mget(x2,y2),0)
+ 	local d=fget(mget(x2,y1),0)
+ 	ct=a or b or c or d
+ end
+ return ct or cb
 end
-
-
-	
 
 
 __gfx__
@@ -410,7 +419,7 @@ __gfx__
 
 __gff__
 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0201010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 __map__
 8282828282050582828282050505050505909090909090900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 8282828282050582828282050505050505909090909090900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
