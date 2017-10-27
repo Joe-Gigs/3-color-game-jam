@@ -87,6 +87,7 @@ function _update()
 		spr(npc1.sp, npc1.x, npc1.y, 1, 1, npc1.flip)
 		menu.level = 0
 	end
+	--camera(player.x, player.y)
 end
 -----------------------------------------------
 function updatePlayer()
@@ -173,7 +174,6 @@ function triggerbattletest()
 end
 
 function drawmenu(entity) 
-
 	menu.sp = 64
 
 	menu_right = {}
@@ -285,6 +285,8 @@ function enter()
 
 	if val == 129 then
 		testvar = true
+		mset(3, y, 94)
+		mset(4, y, 94)
 	end
 end
 
