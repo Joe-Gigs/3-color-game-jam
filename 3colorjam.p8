@@ -64,6 +64,7 @@ function _draw()
 	print(current_location, 100, 30, 3)
 	print(player.y, 100, 40, 11)
 	print(player.x, 100, 50, 8)
+
 end
 
 function _update()
@@ -87,7 +88,7 @@ function _update()
 		poke(0x5f2c, 0)
 		camera(cam_x,cam_y)
 		map(0, 0, 0, 0, 128, 32)
-		camera()
+		--camera()
 		spr(player.sp, player.x, player.y,1,1,player.flip)
 		spr(npc1.sp, npc1.x, npc1.y, 1, 1, npc1.flip)
 		menu.level = 0
@@ -106,7 +107,7 @@ function updateplayer()
 			player.flip = true
 			player.walk = true
 			player.sp += 1
-			solidnpc()
+			--solidnpc()
 
 			if player.sp > 139 then
 				player.sp = 138
@@ -135,6 +136,12 @@ function updateplayer()
 		end
 	end
 		if(cmap(player)) player.x=lx player.y=ly
+
+		if testvar == true then
+			player.x = 160
+			-- player.y = 40
+			cam_x = 130
+		end
 end
 
 function npcmovement()
@@ -290,14 +297,10 @@ function enter()
 
 	if val == 129 then
 		testvar = true
-		player.x = 50
-		cam_x += 30
 	end
 end
 
-function solidnpc()
-	
-end
+
 
 
 __gfx__
